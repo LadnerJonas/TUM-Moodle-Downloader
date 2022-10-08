@@ -44,14 +44,14 @@ class Resource:
 
     @staticmethod
     def get_resource_type(resource_div):
-        group = resource_div.parent.parent.parent.parent['class']
-        if group == ['activity', 'resource', 'modtype_resource']:
+        resource_type = (""+resource_div.find('span', class_="accesshide").contents[0]).strip()
+        if ['Datei', 'File'].__contains__(resource_type):
             return 'file'
-        elif group == ['activity', 'folder', 'modtype_folder']:
+        elif ['Ordner', 'Folder'].__contains__(resource_type):
             return 'folder'
-        elif group == ['activity', 'assign', 'modtype_assign']:
+        elif ['Aufgabe', 'Assignment'].__contains__(resource_type):
             return 'assignment'
-        elif group == ['activity', 'url', 'modtype_url']:
+        elif ['LINK/URL', 'URL'].__contains__(resource_type):
             # TODO what to do with other types?
             if 'pdf' in resource_div.find('img')['src']:
                 return 'url'
