@@ -1,13 +1,12 @@
+import asyncio
+import datetime
 import os
 import urllib
-import datetime
-
-from dateutil.parser import parse as parsedate
 
 from bs4 import BeautifulSoup
+from dateutil.parser import parse as parsedate
 
 import globals
-import asyncio
 
 
 def background(f):
@@ -44,7 +43,11 @@ class Resource:
 
     @staticmethod
     def get_resource_type(resource_div):
-        resource_type = (""+resource_div.find('span', class_="accesshide").contents[0]).strip()
+        resource_type_span = (resource_div.find('span', class_="accesshide"))
+        if resource_type_span is None:
+            return 'other (e.g. quiz, forum, ...)'
+
+        resource_type = ("" + resource_type_span.contents[0]).strip()
         if ['Datei', 'File'].__contains__(resource_type):
             return 'file'
         elif ['Ordner', 'Folder'].__contains__(resource_type):
