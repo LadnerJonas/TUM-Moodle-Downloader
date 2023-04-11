@@ -1,8 +1,8 @@
 import json
 import re
 
-import globals
 import course_retrieval
+import globals
 
 
 def list_resources(args):
@@ -92,6 +92,9 @@ def download_via_config(req_course_name=".*", req_file_pattern=".*"):
                         course.download_resource(resource_name, destination, parallel, update_handling)
                         break
         print("Done downloading via download config.")
-    except:
+    except Exception as inst:
         # TODO: add logging and log exception info (traceback) to a file
         print("Could not download via config due to an internal error.")
+        print(type(inst))
+        print(inst.args)  # arguments stored in .args
+        print(inst)

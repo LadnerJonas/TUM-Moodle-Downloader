@@ -4,7 +4,7 @@ import re
 from bs4 import BeautifulSoup
 
 import globals
-from resource import Resource
+from src.resource import Resource
 
 
 class Course:
@@ -34,6 +34,13 @@ class Course:
         topics = self.soup.find('ul', class_='topics')
         if topics is not None:
             sections += topics.find_all('li', class_='section main clearfix')  # All topic sections
+
+        # Extract resources from the tabviews
+        if len(sections) == 0:
+            tabview_panels_activities = self.soup.find_all('div', class_='activityname')
+            for tabview_panels_activity in tabview_panels_activities:
+                resource = Resource(tabview_panels_activity, is_recent=(tabview_panels_activity == latest_week_section))
+                resources[resource.name] = resource
 
         # Extract resources from the sections
         for section in sections:
