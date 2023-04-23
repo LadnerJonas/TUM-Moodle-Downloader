@@ -4,7 +4,7 @@ import re
 from bs4 import BeautifulSoup
 
 import globals
-from src.resource import Resource
+from resource import Resource
 
 
 class Course:
